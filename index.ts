@@ -56,7 +56,6 @@ async function runServer() {
     await sequelize.authenticate()
     await sequelize.sync({ force: true })
   } catch (error) {
-    console.log(error)
     stopServer(server, sequelize)
     throw error
   }
@@ -67,6 +66,5 @@ runServer()
     logger.info(`run successfully`)
   })
   .catch((ex: Error) => {
-    console.log(ex)
     logger.error('Unable run', ex)
   })
