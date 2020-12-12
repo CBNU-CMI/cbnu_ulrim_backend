@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Sequelize, Model, ModelDefined, DataTypes, Optional } from 'sequelize'
+import { Sequelize, Model, DataTypes, Optional } from 'sequelize'
 
 interface AgreeAttributes {
   id: number
@@ -10,7 +10,7 @@ interface AgreeCreationAttributes extends Optional<AgreeAttributes, 'id'> {}
 interface AgreeInstance extends Model<AgreeAttributes, AgreeCreationAttributes>, AgreeAttributes {}
 
 function agreeInit(sequelize: Sequelize) {
-  const Agree: ModelDefined<AgreeAttributes, AgreeCreationAttributes> = sequelize.define<AgreeInstance>('Agree', {
+  const Agree = sequelize.define<AgreeInstance>('Agree', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,

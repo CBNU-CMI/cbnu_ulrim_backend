@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Sequelize, Model, ModelDefined, DataTypes, Optional } from 'sequelize'
+import { Sequelize, Model, DataTypes, Optional } from 'sequelize'
 
 interface PetitionFileAttributes {
   id: number
@@ -10,7 +10,7 @@ interface PetitionFileCreationAttributes extends Optional<PetitionFileAttributes
 interface PetitionFileInstance extends Model<PetitionFileAttributes, PetitionFileCreationAttributes>, PetitionFileAttributes {}
 
 function petitionFileInit(sequelize: Sequelize) {
-  const PetitionFile: ModelDefined<PetitionFileAttributes, PetitionFileCreationAttributes> = sequelize.define<PetitionFileInstance>('PetitionFile', {
+  const PetitionFile = sequelize.define<PetitionFileInstance>('PetitionFile', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,

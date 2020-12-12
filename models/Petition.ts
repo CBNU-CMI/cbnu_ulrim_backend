@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Sequelize, Model, ModelDefined, DataTypes, Optional } from 'sequelize'
+import { Sequelize, Model, DataTypes, Optional } from 'sequelize'
 
 /* Internal dependencies */
 import CategoryType from 'constants/CategoryType'
@@ -16,7 +16,7 @@ interface PetitionCreationAttributes extends Optional<PetitionAttributes, 'id'> 
 interface PetitionInstance extends Model<PetitionAttributes, PetitionCreationAttributes>, PetitionAttributes {}
 
 function petitionInit(sequelize: Sequelize) {
-  const Petition: ModelDefined<PetitionAttributes, PetitionCreationAttributes> = sequelize.define<PetitionInstance>('Petition', {
+  const Petition = sequelize.define<PetitionInstance>('Petition', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,

@@ -10,7 +10,8 @@ import cors from 'cors'
 import { Sequelize } from 'sequelize/types'
 
 /* Internal dependencies */
-import { init } from 'models'
+import sequelize from 'models'
+import petitionRouter from 'routes/petition'
 import logger from 'logger'
 
 dotenv.config()
@@ -25,7 +26,6 @@ async function stopServer(server: Server, sequelize: Sequelize, signal?: string)
 async function runServer() {
   const app = express()
   const server = http.createServer(app)
-  const sequelize = init()
   const { PORT: port = 4000 } = process.env
 
   if (process.env.NODE_ENV === 'production') {
@@ -40,6 +40,8 @@ async function runServer() {
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser(process.env.COOKIE_SECRET))
+
+  app.use('/api/petition', petitionRouter)
 
   app.use((error: any, req: Request, res: Response, next: NextFunction) => {
     logger.error(error.message)
