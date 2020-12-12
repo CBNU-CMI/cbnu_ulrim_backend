@@ -16,7 +16,7 @@ interface PetitionCreationAttributes extends Optional<PetitionAttributes, 'id'> 
 interface PetitionInstance extends Model<PetitionAttributes, PetitionCreationAttributes>, PetitionAttributes {}
 
 function petitionInit(sequelize: Sequelize) {
-  const Petition = sequelize.define<PetitionInstance>('Petition', {
+  const Petition = sequelize.define<PetitionInstance>('petitions', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -49,7 +49,7 @@ function petitionInit(sequelize: Sequelize) {
       allowNull: false,
     },
   }, {
-    modelName: 'Petition',
+    modelName: 'petitions',
     tableName: 'petitions',
     timestamps: true,
     paranoid: true,

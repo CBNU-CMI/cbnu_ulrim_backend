@@ -10,7 +10,7 @@ interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 interface UserInstance extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {}
 
 function userInit(sequelize: Sequelize) {
-  const User = sequelize.define<UserInstance>('User', {
+  const User = sequelize.define<UserInstance>('users', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -32,7 +32,7 @@ function userInit(sequelize: Sequelize) {
       allowNull: false
     }
   }, {
-    modelName: 'User',
+    modelName: 'users',
     tableName: 'users',
     timestamps: true,
     paranoid: true,

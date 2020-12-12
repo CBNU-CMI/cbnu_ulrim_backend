@@ -21,23 +21,12 @@ export const getPetitions = async (req: Request, res: Response, next: NextFuncti
       attributes: {
         exclude: ['content'],
       },
-      include: [
-        {
-          model: User,
-          attributes: {
-            exclude: ['password'],
-          },
+      include: [{
+        model: User,
+        attributes: {
+          exclude: ['password'],
         },
-        {
-          model: Agree,
-          include: [{
-            model: User,
-            attributes: {
-              exclude: ['password'],
-            },
-          }],
-        },
-      ],
+      }],
     })
 
     return res.send(petitions)
@@ -52,10 +41,24 @@ export const getPetition = async (req: Request, res: Response, next: NextFunctio
   try {
     const petition = await Petition.findOne({
       where: { id: petitionId },
-      include: [{
-        model: PetitionFile,
-      }],
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ['password'],
+          },
+        },
+        {
+          model: PetitionFile,
+        },
+      ],
     })
+
+    if (_.isNil(petition)) {
+      const error: any = new Error('cannot find petition.')
+      error.status = 404
+      throw error
+    }
 
     return res.send(petition)
   } catch (error) {

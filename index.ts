@@ -11,6 +11,7 @@ import { Sequelize } from 'sequelize/types'
 
 /* Internal dependencies */
 import sequelize from 'models'
+import authRouter from 'routes/auth'
 import petitionRouter from 'routes/petition'
 import logger from 'logger'
 
@@ -41,6 +42,7 @@ async function runServer() {
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser(process.env.COOKIE_SECRET))
 
+  app.use('/api/auth', authRouter)
   app.use('/api/petition', petitionRouter)
 
   app.use((error: any, req: Request, res: Response, next: NextFunction) => {
@@ -51,12 +53,12 @@ async function runServer() {
   })
 
   server.listen(port, () => {
-    console.log(`Server is running at https://localhost:${port}`)
+    console.log(`Server is running at http://localhost:${port}`)
   })
 
   try {
     await sequelize.authenticate()
-    await sequelize.sync({ force: true })
+    await sequelize.sync()
   } catch (error) {
     stopServer(server, sequelize)
     throw error

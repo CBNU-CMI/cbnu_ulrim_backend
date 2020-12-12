@@ -19,15 +19,9 @@ export const Petition = petitionInit(sequelize)
 export const PetitionFile = petitionFileInit(sequelize)
 export const User = userInit(sequelize)
 
-User.hasMany(Petition, { foreignKey: {
-  name: 'UserId',
-  field: 'userId'
-}})
+User.hasMany(Petition)
 Petition.belongsTo(User)
-Petition.hasMany(PetitionFile, { foreignKey: {
-  name: 'PetitionId',
-  field: 'petitionId'
-}})
+Petition.hasMany(PetitionFile)
 PetitionFile.belongsTo(Petition)
 User.belongsToMany(Petition, { sourceKey: 'id', foreignKey: 'userId', through: Agree })
 Petition.belongsToMany(User, { sourceKey: 'id', foreignKey: 'petitionId', through: Agree })

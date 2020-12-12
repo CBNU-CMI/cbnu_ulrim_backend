@@ -10,7 +10,7 @@ interface AgreeCreationAttributes extends Optional<AgreeAttributes, 'id'> {}
 interface AgreeInstance extends Model<AgreeAttributes, AgreeCreationAttributes>, AgreeAttributes {}
 
 function agreeInit(sequelize: Sequelize) {
-  const Agree = sequelize.define<AgreeInstance>('Agree', {
+  const Agree = sequelize.define<AgreeInstance>('agrees', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -26,7 +26,7 @@ function agreeInit(sequelize: Sequelize) {
       allowNull: false,
     },
   }, {
-    modelName: 'Agree',
+    modelName: 'agrees',
     tableName: 'agrees',
     timestamps: true,
     paranoid: true,

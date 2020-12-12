@@ -10,7 +10,7 @@ interface PetitionFileCreationAttributes extends Optional<PetitionFileAttributes
 interface PetitionFileInstance extends Model<PetitionFileAttributes, PetitionFileCreationAttributes>, PetitionFileAttributes {}
 
 function petitionFileInit(sequelize: Sequelize) {
-  const PetitionFile = sequelize.define<PetitionFileInstance>('PetitionFile', {
+  const PetitionFile = sequelize.define<PetitionFileInstance>('petitionFiles', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -26,7 +26,7 @@ function petitionFileInit(sequelize: Sequelize) {
       allowNull: false,
     },
   }, {
-    modelName: 'PetitionFile',
+    modelName: 'petitionFiles',
     tableName: 'petitionFiles',
     timestamps: true,
     paranoid: true,
