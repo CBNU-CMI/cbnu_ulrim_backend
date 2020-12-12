@@ -9,10 +9,10 @@ interface configType {
 
 const config: configType = {
   development: {
-    username: 'root',
+    username: 'cmi',
     password: process.env.DB_PASSWORD,
-    database: 'ulrim',
-    host: '127.0.0.1',
+    database: 'cbnu_ulrim',
+    host: 'cmi.jaryapp.kro.kr',
     dialect: 'mysql',
     operatorsAliases: 'false',
     logging: false,
@@ -24,10 +24,10 @@ const config: configType = {
     timezone: '+09:00'
   },
   production: {
-    username: 'root',
+    username: 'cmi',
     password: process.env.DB_PASSWORD,
-    database: 'ulrim',
-    host: '127.0.0.1',
+    database: 'cbnu_ulrim',
+    host: 'cmi.jaryapp.kro.kr',
     dialect: 'mysql',
     operatorsAliases: 'false',
     logging: false,
