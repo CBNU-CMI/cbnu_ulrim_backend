@@ -1,6 +1,8 @@
 /* External dependencies */
 import express, { Request, Response, NextFunction } from 'express'
 import http, { Server } from 'http'
+import path from 'path'
+import fs from 'fs'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import helmet from 'helmet'
@@ -37,7 +39,12 @@ async function runServer() {
     app.use(morgan('dev'))
   }
 
+  if (!fs.existsSync(path.join(__dirname, 'images'))) {
+    fs.mkdirSync(path.join(__dirname, 'images'));
+  }
+
   app.use(cors({ origin: '*' })) // NOTE: (@daniel) 추후에 cors설정필요. 현재는 모든 origin을 허용.
+  app.use('/image', express.static(path.join(__dirname, 'images')))
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser(process.env.COOKIE_SECRET))

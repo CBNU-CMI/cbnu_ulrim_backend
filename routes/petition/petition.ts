@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 /* Internal dependencies */
 import { Petition, User, Agree, PetitionFile } from 'models'
-import { JWTTokenAttributes, InjectedRequestType } from 'routes/middlewares/verifyToken'
+import { FieldType } from 'routes/middlewares/upload'
 
 dotenv.config()
 
@@ -66,9 +66,10 @@ export const getPetition = async (req: Request, res: Response, next: NextFunctio
   }
 }
 
-export const createPetition = async (req: Request & InjectedRequestType, res: Response, next: NextFunction) => {
-  const { id: userId } = req.decoded as JWTTokenAttributes
+export const createPetition = async (req: Request, res: Response, next: NextFunction) => {
+  const { id: userId } = req.decoded
   const { title, category, content, dueDate } = req.body
+  const { images } = req.files as FieldType
 
   try {
     const newPetition = await Petition.create({
@@ -78,14 +79,43 @@ export const createPetition = async (req: Request & InjectedRequestType, res: Re
       content,
       dueDate
     })
-    return res.send(newPetition)
+
+    await Promise.all(images.map(({ filename }) => (
+      PetitionFile.create({
+        petitionId: newPetition.id,
+        url: `/image/${filename}`
+      })
+    )));
+    
+    const petition = await Petition.findOne({
+      where: { id: newPetition.id },
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ['password'],
+          },
+        },
+        {
+          model: PetitionFile,
+        },
+      ],
+    })
+
+    if (_.isNil(petition)) {
+      const error: any = new Error('cannot find petition.')
+      error.status = 404
+      throw error
+    }
+
+    return res.send(petition)
   } catch (error) {
     return next(error)
   }
 }
 
-export const deletePetition = async (req: Request & InjectedRequestType, res: Response, next: NextFunction) => {
-  const { id: userId } = req.decoded as JWTTokenAttributes
+export const deletePetition = async (req: Request, res: Response, next: NextFunction) => {
+  const { id: userId } = req.decoded
   const { petitionId } = req.params
 
   try {

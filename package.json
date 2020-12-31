@@ -18,7 +18,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development nodemon --exec ts-node -r tsconfig-paths/register index.ts -e ts"
+    "dev": "cross-env NODE_ENV=development nodemon --exec ts-node -r tsconfig-paths/register --files index.ts -e ts"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -31,8 +31,10 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5",
+    "uuid": "^8.3.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -45,7 +47,9 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/lodash": "^4.14.165",
     "@types/morgan": "^1.9.2",
+    "@types/multer": "^1.4.5",
     "@types/node": "^14.14.10",
+    "@types/uuid": "^8.3.0",
     "@types/validator": "^13.1.1",
     "cross-env": "^7.0.3",
     "nodemon": "^2.0.6",

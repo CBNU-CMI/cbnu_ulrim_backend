@@ -36,7 +36,7 @@ function petitionInit(sequelize: Sequelize) {
       type: DataTypes.STRING(20),
       allowNull: false,
       validate: {
-        isIn: [[CategoryType.Student, CategoryType.Recruitment, CategoryType.Etc]],
+        isIn: [[CategoryType.Class, CategoryType.StudentCouncil, CategoryType.Dormitory, CategoryType.Rule, CategoryType.Event]],
       },
     },
     content: {

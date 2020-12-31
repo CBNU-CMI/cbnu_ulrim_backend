@@ -1,7 +1,9 @@
 enum CategoryType {
-  Student = 'student',
-  Recruitment = 'recruitment',
-  Etc = 'etc',
+  Class = 'class',
+  StudentCouncil = 'studentCouncil',
+  Dormitory = 'dormitory',
+  Rule = 'rule',
+  Event = 'event',
 }
 
 export default CategoryType
