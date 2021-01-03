@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction, response } from 'express'
 import { Sequelize, Op } from 'sequelize'
 import dotenv from 'dotenv'
 import _ from 'lodash'
@@ -21,12 +21,14 @@ export const getPetitions = async (req: Request, res: Response, next: NextFuncti
       attributes: {
         exclude: ['content'],
       },
-      include: [{
-        model: User,
-        attributes: {
-          exclude: ['password'],
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ['password'],
+          },
         },
-      }],
+      ],
     })
 
     return res.send(petitions)
@@ -77,13 +79,13 @@ export const createPetition = async (req: Request, res: Response, next: NextFunc
       title,
       category,
       content,
-      dueDate
+      dueDate,
     })
 
     await Promise.all(images.map(({ filename }) => (
       PetitionFile.create({
         petitionId: newPetition.id,
-        url: `/image/${filename}`
+        url: `/image/${filename}`,
       })
     )));
     
@@ -136,6 +138,33 @@ export const deletePetition = async (req: Request, res: Response, next: NextFunc
     await Petition.destroy({ where: { id: petitionId } })
 
     return res.send(willDeletePetition)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export const getOwnAgrees = async (req: Request, res: Response, next: NextFunction) => {
+  const { id: userId } = req.decoded
+
+  try {
+    const agrees = await Agree.findAll({ where: { userId }})
+    return res.send(agrees)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export const createAgree = async (req: Request, res: Response, next: NextFunction) => {
+  const { id: userId } = req.decoded
+  const { petitionId } = req.body
+
+  try {
+    await Agree.create({
+      userId: parseInt(userId),
+      petitionId,
+    })
+
+    return res.send()
   } catch (error) {
     return next(error)
   }
